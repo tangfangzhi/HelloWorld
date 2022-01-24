@@ -13,6 +13,7 @@ pipeline {
   stages {
     stage('pre_build'){
       steps {
+        agent{label " slave1 || slave11 "}
         echo "HelloWorld"
         sh '''
             date
