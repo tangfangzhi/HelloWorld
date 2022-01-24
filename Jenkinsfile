@@ -12,13 +12,12 @@ pipeline {
   }
   stages {
     stage('pre_build'){
-      agent{label 'prebuild'}
-      options { skipDefaultCheckout() }
-      when {
-        changeRequest()
-      }
       steps {
         echo "HelloWorld"
+        sh '''
+            date
+            pwd
+        '''
       }
     }
   }
