@@ -15,9 +15,11 @@ pipeline {
       agent{label " slave1 || slave11 "}
       steps {
         echo "HelloWorld"
+        echo "BRANCH: ${env.BRANCH_NAME}"
         sh '''
             date
             pwd
+            env
         '''
       }
     }
