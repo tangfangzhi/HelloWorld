@@ -8,7 +8,7 @@ pipeline {
   agent none
   options { skipDefaultCheckout() }
   environment{
-    WKDIR="/data/tmp"
+    WK = '/var/lib/jenkins/workspace/TDinternal'
   }
   stages {
     stage('pre_build'){
