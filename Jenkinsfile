@@ -8,6 +8,7 @@ pipeline {
   agent none
   options { skipDefaultCheckout() }
   environment{
+    WKDIR="/data/tmp"
   }
   stages {
     stage('pre_build'){
@@ -17,6 +18,7 @@ pipeline {
         changeRequest()
       }
       steps {
+        pwd
         echo "HelloWorld"
       }
     }
