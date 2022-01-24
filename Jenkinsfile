@@ -17,9 +17,7 @@ pipeline {
         changeRequest()
       }
       steps {
-        script{
-          sh -c "echo HelloWorld"
-        }
+        echo "HelloWorld"
       }
     }
   }
