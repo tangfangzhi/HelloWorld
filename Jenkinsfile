@@ -18,7 +18,6 @@ pipeline {
         changeRequest()
       }
       steps {
-        pwd
         echo "HelloWorld"
       }
     }
