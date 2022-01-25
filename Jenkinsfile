@@ -21,6 +21,7 @@ pipeline {
             pwd
             env
             hostname
+            ifconfig
         '''
       }
     }
