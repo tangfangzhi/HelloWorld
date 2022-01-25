@@ -3,50 +3,51 @@ import hudson.model.*;
 import jenkins.model.CauseOfInterruption
 node {
 }
-def pre_test(){
-    sh 'hostname'
-    sh ''' 
+def sync_source() {
+    sh'hostname'
+    sh '''
         cd ${WKC}
         git reset --hard HEAD~10 >/dev/null
-    ''' 
+    '''
     script {
         if (env.CHANGE_TARGET == 'master') {
-            sh ''' 
+            sh '''
                 cd ${WKC}
                 git checkout master
             '''
-        } else if (env.CHANGE_TARGET == '2.4') {
-            sh ''' 
+        } else if (env.CHANGE_TARGET == '2.0') {
+            sh '''
                 cd ${WKC}
-                git checkout 2.4 
+                git checkout 2.0
             '''
         } else {
-            sh ''' 
+            sh '''
                 cd ${WKC}
                 git checkout develop
             '''
-        }   
-    }   
-    sh '''
+        }
+    }
+    sh'''
         cd ${WKC}
         git remote prune origin
-        [ -f src/connector/grafanaplugin/README.md ] && rm -f src/connector/grafanaplugin/README.md > /dev/null || echo "failed to remove grafanaplugin README.md"
         git pull >/dev/null
+        git fetch origin +refs/pull/${CHANGE_ID_TMP}/merge
+        git checkout -qf FETCH_HEAD
         git clean -dfx
         git submodule update --init --recursive
         cd ${WK}
         git reset --hard HEAD~10
-    ''' 
+    '''
     script {
         if (env.CHANGE_TARGET == 'master') {
-            sh ''' 
+            sh '''
                 cd ${WK}
                 git checkout master
             '''
-        } else if(env.CHANGE_TARGET == '2.4') {
+        } else if (env.CHANGE_TARGET == '2.0') {
             sh '''
                 cd ${WK}
-                git checkout 2.4
+                git checkout 2.0
             '''
         } else {
             sh '''
@@ -55,30 +56,32 @@ def pre_test(){
             '''
         }
     }
+}
+def pre_test() {
+    sync_source()
     sh '''
         cd ${WK}
         git pull >/dev/null
-        git fetch origin +refs/pull/${CHANGE_ID_TMP}/merge
-        git checkout -qf FETCH_HEAD
         export TZ=Asia/Harbin
         date
         git clean -dfx
         mkdir debug
         cd debug
         cmake .. -DBUILD_HTTP=false -DBUILD_TOOLS=true > /dev/null
-        make > /dev/null
+        make -j8> /dev/null
         make install > /dev/null
+        cd ${WKC}/tests
+        pip3 install ${WKC}/src/connector/python/
     '''
     return 1
 }
-
 pipeline {
     agent none
     options { skipDefaultCheckout() }
     environment{
         WK = '/root/jenkins/workspace/TDinternal'
         WKC = '/root/jenkins/workspace/TDinternal/community'
-        CHANGE_ID_TMP = '593'
+        CHANGE_ID_TMP = '10009'
     }
     stages {
         stage('pre_build'){
