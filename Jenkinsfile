@@ -111,11 +111,9 @@ pipeline {
                         pre_test()
                         timeout(time: 100, unit: 'MINUTES') {
                             script {
-                                scope.each {
-                                    sh '''
-                                        date
-                                    '''
-                                }
+                                sh '''
+                                    date
+                                '''
                             }
                         }
                     }
