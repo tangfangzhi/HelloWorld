@@ -12,7 +12,7 @@ pipeline {
   }
   stages {
     stage('pre_build'){
-      agent{label " slave1 || slave11 "}
+      agent{label " dispatcher "}
       steps {
         echo "HelloWorld"
         echo "BRANCH: ${env.BRANCH_NAME}"
@@ -20,6 +20,7 @@ pipeline {
             date
             pwd
             env
+            ifconfig
         '''
       }
     }
