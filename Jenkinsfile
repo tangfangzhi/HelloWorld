@@ -92,18 +92,18 @@ pipeline {
                 '''
             }
         }
-    }
-    parallel {
-        stage('build worker01') {
-            agent{label " worker01 "}
-            steps {
-                pre_test()
-                timeout(time: 100, unit: 'MINUTES') {
-                    script {
-                        scope.each {
-                            sh """
-                                date
-                            """
+        parallel {
+            stage('build worker01') {
+                agent{label " worker01 "}
+                steps {
+                    pre_test()
+                    timeout(time: 100, unit: 'MINUTES') {
+                        script {
+                            scope.each {
+                                sh """
+                                    date
+                                """
+                            }
                         }
                     }
                 }
