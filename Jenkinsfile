@@ -112,9 +112,9 @@ pipeline {
                         timeout(time: 100, unit: 'MINUTES') {
                             script {
                                 scope.each {
-                                    sh """
+                                    sh '''
                                         date
-                                    """
+                                    '''
                                 }
                             }
                         }
