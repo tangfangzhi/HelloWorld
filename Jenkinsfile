@@ -65,7 +65,7 @@ def pre_test() {
         export TZ=Asia/Harbin
         date
         echo "// git clean -dfx"
-        mkdir debug
+        mkdir -p debug
         cd debug
         cmake .. -DBUILD_HTTP=false -DBUILD_TOOLS=true > /dev/null
         make -j8> /dev/null
