@@ -33,7 +33,7 @@ def sync_source() {
         git pull >/dev/null
         git fetch origin +refs/pull/${CHANGE_ID_TMP}/merge
         git checkout -qf FETCH_HEAD
-        git clean -dfx
+        // git clean -dfx
         git submodule update --init --recursive
         cd ${WK}
         git reset --hard HEAD~10
@@ -64,7 +64,7 @@ def pre_test() {
         git pull >/dev/null
         export TZ=Asia/Harbin
         date
-        git clean -dfx
+        // git clean -dfx
         mkdir debug
         cd debug
         cmake .. -DBUILD_HTTP=false -DBUILD_TOOLS=true > /dev/null
