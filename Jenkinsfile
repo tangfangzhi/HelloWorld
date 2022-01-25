@@ -81,6 +81,7 @@ pipeline {
     environment{
         WK = '/root/jenkins/workspace/TDinternal'
         WKC = '/root/jenkins/workspace/TDinternal/community'
+        LOGDIR = '/root/jenkins/workspace/log'
         CHANGE_ID_TMP = '9982'
     }
     stages {
@@ -198,7 +199,7 @@ pipeline {
                     sh '''
                         date
                         cd ${WKC}/tests/parallel_test
-                        time ./run.sh -m m.json -t tmp.task
+                        time ./run.sh -m m.json -t tmp.task -l ${LOGDIR}
                         date
                     '''
                 }
