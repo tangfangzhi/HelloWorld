@@ -92,17 +92,27 @@ pipeline {
                 '''
             }
         }
-        parallel {
-            stage('build worker01') {
-                agent{label " worker01 "}
-                steps {
-                    pre_test()
-                    timeout(time: 100, unit: 'MINUTES') {
-                        script {
-                            scope.each {
-                                sh """
-                                    date
-                                """
+        stage('Parallel build stage') {
+            //only build pr
+            options { skipDefaultCheckout() }
+            when {
+                allOf {
+                    changeRequest()
+                    not { expression { env.CHANGE_BRANCH =~ /docs\// }}
+                }
+            }
+            parallel {
+                stage('build worker01') {
+                    agent{label " worker01 "}
+                    steps {
+                        pre_test()
+                        timeout(time: 100, unit: 'MINUTES') {
+                            script {
+                                scope.each {
+                                    sh """
+                                        date
+                                    """
+                                }
                             }
                         }
                     }
