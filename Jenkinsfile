@@ -20,6 +20,7 @@ pipeline {
             date
             pwd
             env
+            hostname
             ifconfig
         '''
       }
