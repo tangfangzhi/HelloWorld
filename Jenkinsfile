@@ -133,6 +133,62 @@ pipeline {
                         }
                     }
                 }
+                stage ('build worker02') {
+                    agent {label " worker02 "}
+                    steps {
+                        pre_test()
+                        timeout(time: 100, unit: 'MINUTES') {
+                            script {
+                                sh '''
+                                    echo "worker02 build done"
+                                    date
+                                '''
+                            }
+                        }
+                    }
+                }
+                stage ('build worker03') {
+                    agent {label " worker03 "}
+                    steps {
+                        pre_test()
+                        timeout(time: 100, unit: 'MINUTES') {
+                            script {
+                                sh '''
+                                    echo "worker03 build done"
+                                    date
+                                '''
+                            }
+                        }
+                    }
+                }
+                stage ('build worker04') {
+                    agent {label " worker04 "}
+                    steps {
+                        pre_test()
+                        timeout(time: 100, unit: 'MINUTES') {
+                            script {
+                                sh '''
+                                    echo "worker04 build done"
+                                    date
+                                '''
+                            }
+                        }
+                    }
+                }
+                stage ('build worker05') {
+                    agent {label " worker05 "}
+                    steps {
+                        pre_test()
+                        timeout(time: 100, unit: 'MINUTES') {
+                            script {
+                                sh '''
+                                    echo "worker05 build done"
+                                    date
+                                '''
+                            }
+                        }
+                    }
+                }
             }
         }
         stage('run test') {
