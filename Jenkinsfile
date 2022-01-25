@@ -81,7 +81,7 @@ pipeline {
     environment{
         WK = '/root/jenkins/workspace/TDinternal'
         WKC = '/root/jenkins/workspace/TDinternal/community'
-        CHANGE_ID_TMP = '10009'
+        CHANGE_ID_TMP = '10010'
     }
     stages {
         stage('pre_build'){
