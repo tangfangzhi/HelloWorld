@@ -71,7 +71,7 @@ def pre_test() {
         make -j8> /dev/null
         echo "make install > /dev/null"
         cd ${WKC}/tests
-        pip3 install ${WKC}/src/connector/python/
+        echo "pip3 install ${WKC}/src/connector/python/"
     '''
     return 1
 }
