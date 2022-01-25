@@ -84,7 +84,7 @@ pipeline {
         CHANGE_ID_TMP = '9982'
     }
     stages {
-        stage('pre_build'){
+        stage ('pre_build') {
             agent{label " dispatcher "}
             steps {
                 sh '''
@@ -95,7 +95,7 @@ pipeline {
                 '''
             }
         }
-        stage('Parallel build stage') {
+        stage ('Parallel build stage') {
             //only build pr
             options { skipDefaultCheckout() }
             when {
@@ -105,13 +105,28 @@ pipeline {
                 }
             }
             parallel {
-                stage('build worker01') {
-                    agent{label " worker01 "}
+                stage ('dispatcher sync source') {
+                    agent {label " dispatcher "}
+                    steps {
+                        sync_source()
+                        timeout(time: 100, unit: 'MINUTES') {
+                            script {
+                                sh '''
+                                    echo "dispatcher ready"
+                                    date
+                                '''
+                            }
+                        }
+                    }
+                }
+                stage ('build worker01') {
+                    agent {label " worker01 "}
                     steps {
                         pre_test()
                         timeout(time: 100, unit: 'MINUTES') {
                             script {
                                 sh '''
+                                    echo "worker01 build done"
                                     date
                                 '''
                             }
@@ -119,6 +134,19 @@ pipeline {
                     }
                 }
             }
+        }
+        stage('run test') {
+            agent {label " dispatcher "}
+            steps {
+                timeout(time: 100, unit: 'MINUTES'){
+                    sh '''
+                        date
+                        cd ${WKC}/tests/parallel_test
+                        time ./run.sh -m m.json -t tmp.task
+                        date
+                    '''
+                }
+            }    
         }
     }
 }
