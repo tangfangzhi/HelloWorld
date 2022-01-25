@@ -69,7 +69,7 @@ def pre_test() {
         cd debug
         cmake .. -DBUILD_HTTP=false -DBUILD_TOOLS=true > /dev/null
         make -j8> /dev/null
-        make install > /dev/null
+        echo "make install > /dev/null"
         cd ${WKC}/tests
         pip3 install ${WKC}/src/connector/python/
     '''
