@@ -207,10 +207,6 @@ pipeline {
                         time ./run.sh -m m.json -t tmp.task -l ${LOGDIR}
                     '''
                 }
-                sh '''
-                    date
-                    hostname
-                '''
             }    
         }
     }
