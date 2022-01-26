@@ -97,7 +97,7 @@ pipeline {
         WK = '/root/jenkins/workspace/TDinternal'
         WKC = '/root/jenkins/workspace/TDinternal/community'
         LOGDIR = '/root/jenkins/workspace/log'
-        CHANGE_ID_TMP = '7718'
+        CHANGE_ID_TMP = '8069'
     }
     stages {
         stage ('pre_build') {
