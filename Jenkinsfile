@@ -4,7 +4,7 @@ import jenkins.model.CauseOfInterruption
 node {
 }
 def sync_source() {
-    sh'hostname'
+    sh 'hostname'
     sh '''
         cd ${WKC}
         git reset --hard HEAD~10 >/dev/null
@@ -19,6 +19,11 @@ def sync_source() {
             sh '''
                 cd ${WKC}
                 git checkout 2.0
+            '''
+        } else if (env.CHANGE_TARGET == '2.4') {
+            sh '''
+                cd ${WKC}
+                git checkout 2.4
             '''
         } else {
             sh '''
@@ -192,14 +197,20 @@ pipeline {
         }
         stage('run test') {
             steps {
-                timeout(time: 100, unit: 'MINUTES'){
+                sh '''
+                    date
+                    hostname
+                '''
+                timeout(time: 100, unit: 'MINUTES') {
                     sh '''
-                        date
                         cd ${WKC}/tests/parallel_test
                         time ./run.sh -m m.json -t tmp.task -l ${LOGDIR}
-                        date
                     '''
                 }
+                sh '''
+                    date
+                    hostname
+                '''
             }    
         }
     }
