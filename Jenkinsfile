@@ -204,7 +204,7 @@ pipeline {
                 timeout(time: 100, unit: 'MINUTES') {
                     sh '''
                         cd ${WKC}/tests/parallel_test
-                        time ./run.sh -m m.json -t tmp.task -l ${LOGDIR}
+                        time ./run.sh -m m.json -t tmp.task -l ${LOGDIR} -b ${CHANGE_TITLE}
                     '''
                 }
             }    
