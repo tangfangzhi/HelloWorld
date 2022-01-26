@@ -7,6 +7,7 @@ def sync_source() {
     sh 'hostname'
     sh '''
         cd ${WKC}
+        [ -f src/connector/grafanaplugin/README.md ] && rm -f src/connector/grafanaplugin/README.md > /dev/null || echo "failed to remove grafanaplugin README.md"
         git reset --hard HEAD~10 >/dev/null
     '''
     script {
@@ -35,6 +36,7 @@ def sync_source() {
     sh'''
         cd ${WKC}
         git remote prune origin
+        [ -f src/connector/grafanaplugin/README.md ] && rm -f src/connector/grafanaplugin/README.md > /dev/null || echo "failed to remove grafanaplugin README.md"
         git pull >/dev/null
         git fetch origin +refs/pull/${CHANGE_ID_TMP}/merge
         git checkout -qf FETCH_HEAD
@@ -54,6 +56,11 @@ def sync_source() {
                 cd ${WK}
                 git checkout 2.0
             '''
+        } else if (env.CHANGE_TARGET == '2.4') {
+            sh '''
+                cd ${WK}
+                git checkout 2.4
+            '''
         } else {
             sh '''
                 cd ${WK}
@@ -61,15 +68,18 @@ def sync_source() {
             '''
         }
     }
-}
-def pre_test() {
-    sync_source()
     sh '''
         cd ${WK}
         git pull >/dev/null
         export TZ=Asia/Harbin
         date
         echo "// git clean -dfx"
+    '''
+}
+def pre_test() {
+    sync_source()
+    sh '''
+        cd ${WK}
         mkdir -p debug
         cd debug
         cmake .. -DBUILD_HTTP=false -DBUILD_TOOLS=true > /dev/null
@@ -205,7 +215,7 @@ pipeline {
                     sh '''
                         date
                         cd ${WKC}/tests/parallel_test
-                        time ./run.sh -m m.json -t tmp.task -l ${LOGDIR} -b ${CHANGE_TITLE}
+                        time ./run.sh -m m.json -t cases.task -l ${LOGDIR} -b ${CHANGE_TITLE}
                         date
                         hostname
                     '''
