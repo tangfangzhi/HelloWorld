@@ -86,7 +86,6 @@ pipeline {
     }
     stages {
         stage ('pre_build') {
-            agent {label " dispatcher "}
             steps {
                 sh '''
                     date
@@ -107,7 +106,6 @@ pipeline {
             }
             parallel {
                 stage ('dispatcher sync source') {
-                    agent {label " dispatcher "}
                     steps {
                         sync_source()
                         timeout(time: 100, unit: 'MINUTES') {
@@ -193,7 +191,6 @@ pipeline {
             }
         }
         stage('run test') {
-            agent {label " dispatcher "}
             steps {
                 timeout(time: 100, unit: 'MINUTES'){
                     sh '''
