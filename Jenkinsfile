@@ -76,7 +76,7 @@ def pre_test() {
     return 1
 }
 pipeline {
-    agent none
+    agent {label " dispatcher "}
     options { skipDefaultCheckout() }
     environment{
         WK = '/root/jenkins/workspace/TDinternal'
@@ -86,7 +86,7 @@ pipeline {
     }
     stages {
         stage ('pre_build') {
-            agent{label " dispatcher "}
+            agent {label " dispatcher "}
             steps {
                 sh '''
                     date
