@@ -97,7 +97,7 @@ pipeline {
         WK = '/root/jenkins/workspace/TDinternal'
         WKC = '/root/jenkins/workspace/TDinternal/community'
         LOGDIR = '/root/jenkins/workspace/log'
-        CHANGE_ID_TMP = '8069'
+        CHANGE_ID_TMP = '9982'
     }
     stages {
         stage ('pre_build') {
@@ -215,7 +215,7 @@ pipeline {
                     sh '''
                         date
                         cd ${WKC}/tests/parallel_test
-                        time ./run.sh -m m.json -t cases.task -l ${LOGDIR} -b ${CHANGE_TITLE}
+                        time ./run.sh -m m.json -t cases.task -l ${LOGDIR} -b ${BRANCH_NAME}
                         date
                         hostname
                     '''
@@ -259,7 +259,7 @@ pipeline {
                             </table>
                         </body>
                     </html>""",
-                to: "fztang@taosdata.com",
+                to: "${env.CHANGE_AUTHOR_EMAIL}",
                 from: "support@taosdata.com"
             )
         }
@@ -298,7 +298,7 @@ pipeline {
                             </table>
                         </body>
                     </html>""",
-                to: "fztang@taosdata.com",
+                to: "${env.CHANGE_AUTHOR_EMAIL}",
                 from: "support@taosdata.com"
             )
         }
