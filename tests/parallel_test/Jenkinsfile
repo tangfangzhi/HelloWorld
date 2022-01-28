@@ -4,7 +4,10 @@ import jenkins.model.CauseOfInterruption
 node {
 }
 def sync_source() {
-    sh 'hostname'
+    sh '''
+        hostname
+        date
+        '''
     sh '''
         cd ${WKC}
         [ -f src/connector/grafanaplugin/README.md ] && rm -f src/connector/grafanaplugin/README.md > /dev/null || echo "failed to remove grafanaplugin README.md"
