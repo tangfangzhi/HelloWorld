@@ -3,8 +3,10 @@ pipeline {
     agent {label "wintest"}
     stages {
         stage('Load Jenkins File') {
-            jenkinsFile = fileLoader.fromGit('tests/parallel_test/Jenkinsfile', 'https://github.com/taosdata/CiTest_TDengine.git', '2.4_test_1', null, '')
-            jenkinsFile.start()
+            steps {
+                jenkinsFile = fileLoader.fromGit('tests/parallel_test/Jenkinsfile', 'https://github.com/taosdata/CiTest_TDengine.git', '2.4_test_1', null, '')
+                jenkinsFile.start()
+            }
         }
         stage('windows test develop') {
             parallel {
