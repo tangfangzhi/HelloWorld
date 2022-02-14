@@ -1,0 +1,36 @@
+def jenkinsFile
+pipeline {
+    agent {label "slave1"}
+    stages {
+        stage('Load Jenkins File') {
+            steps {
+                script {
+                    build job: 'CIJob', parameters: [
+                        string(name: 'BRANCH_NAME', value: 'my_branch'),
+                        string(name: 'CHANGE_ID', value: '12345')
+                    ]
+                }
+            }
+        }
+    }
+    post {
+        success {
+            emailext (
+                subject: " SUCCESSFUL: Windows Test ",
+                body: """<p>SUCCESSFUL: Windows Test:</p>
+                    <p>please check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>""",
+                to: "fztang@taosdata.com", 
+                from: "support@taosdata.com"
+            )
+        }
+        failure {
+            emailext (
+                subject: "FAILED: Windows Test",
+                body: """<p>FAILED: Windows Test:</p>
+                    <p>please check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>""",
+                to: "fztang@taosdata.com",
+                from: "support@taosdata.com"
+            )
+        }
+    }
+}
