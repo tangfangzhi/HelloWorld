@@ -5,8 +5,7 @@ pipeline {
         stage('Load Jenkins File') {
             steps {
                 script {
-                    jenkinsFile = fileLoader.fromGit('tests/parallel_test/Jenkinsfile', 'https://github.com/taosdata/CiTest_TDengine.git', '2.4_test_1', 'ac1b45da-1f6f-469e-b617-c7e1d7e97b14', '')
-                    jenkinsFile.start()
+                    build job: 'WinTest', parameters: [ ]
                 }
             }
         }
