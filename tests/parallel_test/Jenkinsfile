@@ -5,7 +5,9 @@ pipeline {
         stage('Load Jenkins File') {
             steps {
                 script {
-                    build job: 'WinTest', parameters: [ ]
+                    build job: 'CIJob', parameters: [
+                        string(name: 'BRANCH_NAME', value: 'my_branch')
+                    ]
                 }
             }
         }
