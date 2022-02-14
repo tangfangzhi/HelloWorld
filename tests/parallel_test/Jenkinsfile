@@ -1,90 +1,11 @@
 def jenkinsFile
 pipeline {
-    agent {label "wintest"}
+    agent {label "slave1"}
     stages {
         stage('Load Jenkins File') {
             steps {
                 script {
                     build job: 'WinTest', parameters: [ ]
-                }
-            }
-        }
-        stage('windows test develop') {
-            parallel {
-                stage('build develop') {
-                    steps {
-                        sh '''
-                            env
-                            echo "build develop"
-                            cd /var/lib
-                            sh -c "echo \"$JOB_NAME" | grep -q Win; if [ $? -eq 0 ]; then echo \"OK\"; else echo \"$JOB_NAME\"; fi; pwd"
-                        '''
-                    }
-                }
-                stage('run test develop') {
-                    agent {label "win"}
-                    steps {
-                        bat '''
-                            echo "run win test develop"
-                        '''
-                    }
-                }
-            }
-        }
-        stage('windows test 2.4') {
-            parallel {
-                stage('build 2.4') {
-                    steps {
-                        sh '''
-                            echo "build 2.4"
-                        '''
-                    }
-                }
-                stage('run test 2.4') {
-                    agent {label "win"}
-                    steps {
-                        bat '''
-                            echo "run win test 2.4"
-                        '''
-                    }
-                }
-            }
-        }
-        stage('windows test master') {
-            parallel {
-                stage('build master') {
-                    steps {
-                        sh '''
-                            echo "build master"
-                        '''
-                    }
-                }
-                stage('run test master') {
-                    agent {label "win"}
-                    steps {
-                        bat '''
-                            echo "run win test master"
-                        '''
-                    }
-                }
-            }
-        }
-        stage('windows test 2.0') {
-            parallel {
-                stage('build 2.0') {
-                    steps {
-                        sh '''
-                            echo "build 2.0"
-                        '''
-                    }
-                }
-                stage('run test 2.0') {
-                    agent {label "win"}
-                    steps {
-                        bat '''
-                            echo "run win test 2.0"
-                        '''
-                    }
                 }
             }
         }
